@@ -64,8 +64,6 @@ function draw() {
 
 function windowResized() { 
   h = windowHeight/2;
-  
-  h = h > MIN_HEIGHT ? h : MIN_HEIGHT;
   w = document.body.offsetWidth*0.9;
   resizeCanvas(w, h); 
 } 

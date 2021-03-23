@@ -33,23 +33,23 @@ p {
     margin: 10px;
     margin-left: 20px;
 }
+.infocard-container {
+    
+    display:flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
 .infocard {
     background-color: white;
-    border: 3px solid rgb(0, 137, 230);
     border-radius: 10px;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
     margin: 10px;
     padding: 10px;
+    max-width: 500px;
 }
 .info-description {
     font-size: 15px;
     margin-bottom: 10px;
-}
-table {
-    margin-left: 40px;
-    color: rgb(85, 85, 85);
-    border-spacing: 5px;
-
 }
 .header {
     text-align: center;
@@ -62,7 +62,6 @@ table {
     justify-content: center;
 }
 #defaultCanvas0 {
-    border: 3px solid rgb(0, 137, 230);
     border-radius: 10px;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
 }
@@ -92,7 +91,6 @@ background-color: rgb(115, 171, 209);
 }
 
 .controls {
-    border-top: 2px solid grey;
     margin: 10px;
     padding-top: 10px;
     display: flex;
