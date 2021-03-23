@@ -8,12 +8,14 @@ let arr = [];
 let arr_color = [];
 let arr_sorted = [];
 
-const n = 50;
+const n = 52;
 let sort_running = false;
-let correct = 0;
 
-const MIN_WIDTH = 350;
-const MIN_HEIGHT = 500;
+let correct = 0;
+let compares = 0;
+let swaps = 0;
+
+const MIN_HEIGHT = 250;
 let w;
 let h;
 
@@ -21,13 +23,14 @@ const colors = {
   "blue": [0, 137, 230],
   "darkblue": [32, 89, 232],
   "pink": [247, 45, 217],
-  "darkpink": [219, 35, 192],
+  "darkpink": [135, 0, 115],
   "black": [0, 0, 0],
   "white": [255, 255, 255]
 };
 
 async function setup() {
   h = windowHeight/2;
+  h = h > MIN_HEIGHT ? h : MIN_HEIGHT;
   w = document.body.offsetWidth*0.9;
   let canvas = createCanvas(w, h);
   canvas.parent('sketch');
@@ -54,11 +57,15 @@ function draw() {
   textStyle(NORMAL);
   textSize(20);
   fill(0, 83, 138);
-  text(t, w/2, h*0.3 / 2);
+  text(t, w/2, h*0.3 / 3);
+  text("compares: "+ compares, w/2, h*0.3 / 3 + 20);
+  text("swaps: " + swaps, w/2, h*0.3 / 3 + 40);
 }
 
 function windowResized() { 
   h = windowHeight/2;
+  
+  h = h > MIN_HEIGHT ? h : MIN_HEIGHT;
   w = document.body.offsetWidth*0.9;
   resizeCanvas(w, h); 
 } 
@@ -100,14 +107,17 @@ function is_sorted() {
 async function sortArray() {
   if (sort_running || is_sorted()) return;
   sort_running = true;
+  compares = 0;
+  swaps = 0;
   switch (alg) {
     case "Bubblesort":
       bubblesort();
       break;
     case "Quicksort":
-      await quicksort(0,(arr.length - 1));
+      quicksort(0,(arr.length - 1));
       break;
     case "Selectionsort":
+      selectionsort();
       break;
   }
 }
@@ -122,6 +132,22 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function selectionsort() {
+  
+  for(let i = 0; i < arr.length; i++) {
+    let min_idx = i;
+    for (let j = i+1; j < arr.length; j++) {
+      arr_color[j] = colors.pink;
+      await sleep(5);
+      arr_color[j] = colors.blue;
+      compares++;
+      if (arr[min_idx] > arr[j]) min_idx = j;
+    }
+    await swap(i, min_idx);
+    swaps++;
+  }
+}
+
 async function bubblesort() {
   let run = true;
   for(let i = 0; i < arr.length && run; i++) {
@@ -131,10 +157,12 @@ async function bubblesort() {
       arr_color[y] = colors.pink;
       arr_color[y+1] = colors.pink;
       await sleep(5);
+      compares++;
       if (arr[y] > arr[y+1]) {
         run = true;
         await swap(y, y+1);
         await sleep(10);
+        swaps++;
       }
       arr_color[y] = colors.blue;
       arr_color[y+1] = colors.blue;
@@ -156,24 +184,25 @@ async function quicksort(low, high) {
 async function partition(low, high) {
   
   let pivot = arr[high];
-  let color = await randomColor();
   for(let i = low + 1; i < high; i++) {
     arr_color[i] = colors.pink;
   }
-  if (low === high) arr_color[low] = colors.darkpink;
-  await sleep(500);
+  await sleep(200);
   let i = (low - 1);
 
   for(let j = low; j <= high - 1; j++) {
     if (!sort_running) return 0;
+    compares++;
     if (arr[j] < pivot) {
       i++;
       await swap(i, j);
+      swaps++;
       await sleep(100);
     }
 
 
   }
+  swaps++;
   await swap(i + 1, high);
   for(let i = low + 1; i < high; i++) {
     arr_color[i] = colors.blue;
@@ -182,5 +211,4 @@ async function partition(low, high) {
   return (i+1);
 }
 function randomColor() {
-  return [random(0, 255), random(0, 255), random(0, 255)];
 }
