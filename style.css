@@ -1,0 +1,71 @@
+body {
+    background-color: #d8eefc;
+    margin: 0;
+}
+html {
+    font-family: "Lato", sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 45px;
+    padding: 0;
+    margin: 10px;
+    color:rgb(0, 83, 138)
+}
+p {
+    text-align: center;
+    color: rgb(85, 85, 85);
+}
+
+#sketch {
+    display:flex;
+    justify-content: center;
+}
+#defaultCanvas0 {
+    border: 3px solid rgb(0, 137, 230);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
+}
+
+.selection {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+}
+.none, .selected {
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.selection .none {
+background-color: rgb(0, 137, 230);
+}
+.selection .none:hover {
+background-color: rgb(0, 105, 175);
+}
+.selected {
+background-color: rgb(115, 171, 209);
+}
+
+.controls {
+    border-top: 2px solid grey;
+    margin: 10px;
+    padding-top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.controls button {
+    
+    background-color: rgb(0, 137, 230);
+    color: white;
+    padding: 8px;
+    font-size: 13px;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}

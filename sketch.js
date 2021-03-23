@@ -10,13 +10,9 @@ let arr_sorted = [];
 
 const n = 50;
 let sort_running = false;
+let correct = 0;
 
-//interaction elements
-let btn_sort;
-let btn_shuffle;
-let sel;
-
-const MIN_WIDTH = 600;
+const MIN_WIDTH = 350;
 const MIN_HEIGHT = 500;
 let w;
 let h;
@@ -32,65 +28,52 @@ const colors = {
 
 async function setup() {
   h = windowHeight/2;
-  if (h < MIN_HEIGHT ) h = MIN_HEIGHT;
-  w = windowWidth;
-  if (w < MIN_WIDTH) w = MIN_WIDTH;
-  createCanvas(w, h);
-  btn_sort = createButton('sort');
-  btn_sort.position(50, 50);
-  btn_sort.mousePressed(sortArray);
-
-  btn_shuffle = createButton('shuffle');
-  btn_shuffle.position(150, 50);
-  btn_shuffle.mousePressed(shuffleArray);
-
-  for (btn of [btn_shuffle, btn_sort]) {
-    btn.style('background-color', '#0089e6');
-    btn.style('border', 'none');
-    btn.style('color', 'white');
-    btn.style('text-align', 'center');
-    btn.style('font-size', '16px');
-    btn.style('padding', '15px 32px');
-    
-  }
-
-  sel = createSelect();
-  sel.position(330, 50);
-  sel.option('Bubblesort');
-  sel.option('Quicksort');
-  sel.option('Selectionsort');
-  sel.selected('Quicksort');
-
-  shuffleArray();
+  w = document.body.offsetWidth*0.9;
+  let canvas = createCanvas(w, h);
+  canvas.parent('sketch');
+shuffleArray();
 }
 
 function draw() {
   background(colors.white);
   drawArray();
+  textSize(12);
+  textStyle(ITALIC);
+  let offset = h*0.3 / 3;
+  fill(colors.blue);
+  text('unsorted', 20, offset);
+  fill(colors.pink);
+  text('currently looked at', 20, offset + 15);
+  fill(colors.darkblue);
+  text('sorted', 20, offset + 30);
+  
+  let t = correct + " / " + (n-2);
   if (is_sorted()) {
-    fill(colors.blue);
-    textSize(50);
-    text('sorted!', 50, 250);
+    t += ' | sorted!';
   }
+  textStyle(NORMAL);
+  textSize(20);
+  fill(0, 83, 138);
+  text(t, w/2, h*0.3 / 2);
 }
 
 function windowResized() { 
   h = windowHeight/2;
-  if (h < MIN_HEIGHT ) h = MIN_HEIGHT;
-  w = windowWidth;
-  if (w < MIN_WIDTH) w = MIN_WIDTH;
+  w = document.body.offsetWidth*0.9;
   resizeCanvas(w, h); 
 } 
 
 function drawArray() {
   let width = w/n;
-  //fill(colors.blue);
   stroke(colors.white);
-  
+  correct = 0;
   for(let i = 1; i < arr.length - 1; i++) {
-    if (arr_sorted[i] === arr[i] && sort_running && arr_color[i] == colors.blue) fill(colors.darkblue);
+    if (arr_sorted[i] === arr[i] && sort_running && arr_color[i] == colors.blue) {
+      correct++;
+      fill(colors.darkblue);
+    }
     else fill(arr_color[i]);
-    rect(width * i, 150, width, arr[i]*5, 2);
+    rect(width * i, h*0.3, width, arr[i]/100 * h* 0.6, 2);
   }
   
 
@@ -101,7 +84,7 @@ function shuffleArray() {
   arr = [];
   arr_color = [];
   for(let i = 0; i < n; i++) {
-    arr.push(1+Math.floor(Math.random()*30));
+    arr.push(1+Math.floor(Math.random()*100));
     arr_color.push(colors.blue);
   }
   arr_sorted = Array.from(arr).sort((x, y) => x-y);
@@ -117,7 +100,7 @@ function is_sorted() {
 async function sortArray() {
   if (sort_running || is_sorted()) return;
   sort_running = true;
-  switch (sel.value()) {
+  switch (alg) {
     case "Bubblesort":
       bubblesort();
       break;
