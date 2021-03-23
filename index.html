@@ -18,34 +18,34 @@
   <p class="header">Choose an algorithm and see how it will sort the rectangles by its length.</p>
   
   <div class="selection">
-    <button class="selected" onclick="selectButton(this); showInfo()">Bubblesort</button>
-    <button class="none" onclick="selectButton(this); showInfo()">Quicksort</button>
-    <button class="none" onclick="selectButton(this); showInfo()">Selectionsort</button>
+    <button class="selected" onclick="selectButton(this); toggleInfo()">Bubblesort</button>
+    <button class="none" onclick="selectButton(this); toggleInfo()">Quicksort</button>
+    <button class="none" onclick="selectButton(this); toggleInfo()">Selectionsort</button>
   </div>
 
 
   <div class="controls">
     <button onclick="sortArray()">Start</button>
     <button onclick="shuffleArray()">Shuffle</button>
-    <button onclick="info = !info;showInfo()">Info</button>
+    <button onclick="showInfo()">Info</button>
   </div>
 
   <div class="infocard" hidden id="Quicksort">
     <h3>Quicksort</h3>
     <p>Efficiency: Very high</p>
-    <p class="info-description">Chooses an element called pivot. Makes two sublists: </br>1. Elements higher than pivot </br>2. Elements lower than pivot. </br>Repeats for all sublists until sublists have a length of 1.</p>
+    <p class="info-description">Chooses an element called pivot. Makes two sublists: </br>1. Elements greater than pivot </br>2. Elements lower than pivot. </br>Repeats for all sublists until sublists have a length of 1.</p>
   </div>
 
   <div class="infocard" hidden id="Bubblesort">
     <h3>Bubblesort</h3>
-    <p>Efficiency: Very high</p>
-    <p class="info-description">Chooses an element called pivot. Makes two sublists: </br>1. Elements higher than pivot </br>2. Elements lower than pivot. </br>Repeats for all sublists until sublists have a length of 1.</p>
+    <p>Efficiency: Bad</p>
+    <p class="info-description">Goes from left to right through the list and compares two elements.</br>Swaps the two if the left element is greater than the right.</br> Repeats the process until sorted.</p>
   </div>
 
   <div class="infocard" hidden id="Selectionsort">
     <h3>Selectionsort</h3>
-    <p>Efficiency: Very high</p>
-    <p class="info-description">Chooses an element called pivot. Makes two sublists: </br>1. Elements higher than pivot </br>2. Elements lower than pivot. </br>Repeats for all sublists until sublists have a length of 1.</p>
+    <p>Efficiency: Medium</p>
+    <p class="info-description">Searches the lowest element and places it into the most left position. Then searches the 2nd lowest element and puts it into the 2nd most left position. Repeats in same pattern until sorted.</p>
   </div>
 
   <div id="sketch"></div>
@@ -66,11 +66,17 @@
   <script>
     var info = false;
     var alg = "Bubblesort";
-
+    function toggleInfo() {
+      if(!info) return;
+      info = !info;
+      showInfo();
+    }
     function showInfo() {
+      info = !info;
       for (let elt of document.getElementsByClassName('infocard')) {
         if (!info) elt.hidden = true;
         else if (alg === elt.id) elt.hidden = false;
+        else elt.hidden = true;
       }
     }
     function selectButton(elt) {
