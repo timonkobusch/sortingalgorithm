@@ -1,43 +1,45 @@
-//todo:
-//dynamic buttons
-//more sorts
-//layout
 
 //logic variables
-let arr = [];
-let arr_color = [];
-let arr_sorted = [];
+let arr = []; // current array (unsorted)
+let arr_color = []; // colors equivalent to unsorted array
+let arr_sorted = []; // finished sorted array, made before animation to have quick lookup which elements in correct position
 
-const n = 52;
+const n = 52; // amount of elements -2
 let sort_running = false;
 
+// counting vars for the statistics
 let correct = 0;
 let compares = 0;
 let swaps = 0;
 
 const MIN_HEIGHT = 250;
-let w;
-let h;
+let w; // width
+let h; // height
 
 const colors = {
   "blue": [0, 137, 230],
   "darkblue": [32, 89, 232],
   "pink": [247, 45, 217],
-  "darkpink": [135, 0, 115],
-  "black": [0, 0, 0],
   "white": [255, 255, 255]
 };
 
 async function setup() {
+  pixelDensity(2.0);
+
+  // calculate dimensions
   h = windowHeight/2;
   h = h > MIN_HEIGHT ? h : MIN_HEIGHT;
   w = document.body.offsetWidth*0.9;
+
   let canvas = createCanvas(w, h);
   canvas.parent('sketch');
-shuffleArray();
+
+  // create an unsorted array and save it into "arr"
+  shuffleArray();
 }
 
 function draw() {
+  // draw stats and array. calls drawArray() for the array elements
   background(colors.white);
   drawArray();
   textSize(12);
@@ -63,7 +65,6 @@ function draw() {
 }
 
 function windowResized() { 
-  h = windowHeight/2;
   w = document.body.offsetWidth*0.9;
   resizeCanvas(w, h); 
 } 
@@ -73,15 +74,13 @@ function drawArray() {
   stroke(colors.white);
   correct = 0;
   for(let i = 1; i < arr.length - 1; i++) {
-    if (arr_sorted[i] === arr[i] && sort_running && arr_color[i] == colors.blue) {
+    if (arr_sorted[i] === arr[i] && sort_running && arr_color[i] == colors.blue) { // if in correct position, draw darblue element
       correct++;
       fill(colors.darkblue);
     }
     else fill(arr_color[i]);
     rect(width * i, h*0.3, width, arr[i]/100 * h* 0.6, 2);
   }
-  
-
 }
 
 function shuffleArray() {

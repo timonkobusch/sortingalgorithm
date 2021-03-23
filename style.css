@@ -10,7 +10,7 @@ h1 {
     text-align: center;
     font-size: 45px;
     padding: 0;
-    margin: 10px;
+    margin: 20px;
     margin-bottom: 0;
     color:rgb(0, 83, 138)
 }
@@ -43,7 +43,7 @@ p {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
-    margin: 10px;
+    margin: 20px;
     padding: 10px;
     max-width: 500px;
 }
